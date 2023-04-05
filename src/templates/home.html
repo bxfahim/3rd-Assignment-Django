@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+
+{% block metainfo %}
+<title>This is a Django Blog for Assignment</title>
+{% endblock metainfo %}
+
+{% block content %}
+
+    
+<!--------------------------------------
+HEADER
+--------------------------------------->
+<div class="container">
+	{% for header in header_post%}
+	<div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
+		<div class="pl-4 pr-0 h-100 tofront">
+			<div class="row justify-content-between">
+				<div class="col-md-6 pt-6 pb-6 align-self-center">
+					<h1 class="secondfont mb-3 font-weight-bold text-capitalize">{{header.title}}</h1>
+					<p class="mb-3">
+						{{header.content|truncatewords:25|safe}}
+					</p>
+					<a href="{% url 'article' header.slug %}" class="btn btn-dark">Read More</a>
+				</div>
+				<div class="col-md-6 d-none d-md-block pr-0" style="background-size:cover;background-image:url({{header.featured_image.url}});">	</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+<!-- End Header -->
+    
+    
+<!--------------------------------------
+MAIN
+--------------------------------------->
+    
+<div class="container pt-4 pb-4">
+	<div class="row">
+		{% for feature in featured_post %}
+
+
+		<div class="col-lg-6">
+			<div class="card border-0 mb-4 box-shadow h-xl-300">              
+                <div style="background-image: url({{feature.featured_image.url}}); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
+				<div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+					<h2 class="h4 font-weight-bold">
+					<a class="text-dark text-capitalize" href={% url 'article' feature.slug %}>{{ feature.title }}</a>
+					</h2>
+					<p class="card-text">
+						 {{feature.content|truncatewords:25|safe}}<a class = "text-decoration-none" href="{% url 'article' feature.slug %}">Read more</a>
+					</p>
+					<div>
+						<small class="d-block">By <a class="text-muted" href="#">Favid Rick</a> Category: <a href="{% url 'category' feature.category.slug %}">{{feature.category.title}}</a></small>
+						<small class="text-muted">{{feature.created}}</small>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% endfor %}
+
+
+		
+	</div>
+</div>
+    
+<div class="container">
+	<div class="row justify-content-between">
+		<div class="col-md-8">
+			<h5 class="font-weight-bold spanborder"><span>All Stories</span></h5>
+
+			{% for story in story_post %}
+
+			<div class="mb-3 d-flex justify-content-between">
+				<div class="pr-3">
+					<h2 class="mb-1 h4 font-weight-bold">
+					<a class="text-dark text-capitalize" href="{% url 'article' story.slug %}">{{story.title}}</a>
+					</h2>
+					<p>
+						{{story.content|truncatewords:20|safe}}
+					</p>
+					<div class="card-text text-muted small">
+						 <small class="d-block">By <a class="text-muted" href="#">Favid Rick</a> Category: <a href="{% url 'category' story.category.slug %}">{{story.category.title}}</a></small>
+					</div>
+					<small class="text-muted">{{story.created}}</small>
+				</div>
+				<img height="120" src="{{story.featured_image.url}}">
+			</div>
+
+			{% endfor %}
+
+		</div>
+		<div class="col-md-4 pl-4">
+            <h5 class="font-weight-bold spanborder"><span>Popular Post</span></h5>
+			<ol class="list-featured">
+				{% for popular in popular_post%}
+				<li>
+				<span>
+				<h6 class="font-weight-bold">
+				<a href="{% url 'article' popular.slug %}" class="text-dark text-capitalize">{{popular.title}}</a>
+				</h6>
+				<p class="text-muted">
+					Jake Bittle in SCIENCE
+				</p>
+				</span>
+				</li>
+				{% endfor %}
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+
+
+{% endblock content %}

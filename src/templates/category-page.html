@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <h1 class="text-center py-3 text-capitalize">Category Page</h1>
+    <hr>
+
+	<div class="container pt-4 pb-4">
+		<div class="row">
+			{% for post in posts %}
+
+
+			<div class="col-lg-6">
+				<div class="card border-0 mb-4 box-shadow h-xl-300">              
+					<div style="background-image: url({{post.featured_image.url}}); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
+					<div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+						<h2 class="h4 font-weight-bold">
+						<a class="text-dark text-capitalize" href={% url 'article' post.slug %}>{{ post.title }}</a>
+						</h2>
+						<p class="card-text">
+							{{post.content|truncatewords:25|safe}}<a class = "text-decoration-none" href="{% url 'article' post.slug %}">Read more</a>
+						</p>
+						<div>
+							<small class="d-block">By <a class="text-muted" href="#">Favid Rick</a> Category: <a href="{% url 'category' post.category.slug %}">{{post.category.title}}</a></small>
+							<small class="text-muted">{{post.created}}</small>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{% endfor %}
+
+
+			
+		</div>
+	</div>
+
+</div>
+
+{% endblock content %}
